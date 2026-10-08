@@ -1,21 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "entity_logic.h"
 
 volatile int* dataGPIO = (volatile int *)0x40000e0;
 volatile int* dataDirection = (volatile int *)0x40000e4;
 volatile int *led = (volatile int*)0x04000000;
 
-typedef struct entity{
-    int col, row;
-    int drCol, drRow;
-    int scared;
-    int eaten;
-    int ghosttype;
-    int currentSqRow, currentSqCol; // keeps track of which square in the map you an entity is in
-    int wantedDrRow, wantedDrCol; // desired direction, current direction should update when perfectly in a square 
-    int score;
-} entity;
 
 void setup(struct entity *entity20, int row1, int col1, int ghostnumber){
     entity20->col = col1;
@@ -104,24 +95,23 @@ void move_pacman(struct entity *pacman, int map[][32]){
 
 
 void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32]){
-
     if(ghost->row % 10 == 0 && ghost->col % 10 == 0){
     int drX [4] = {-1, 0, 1, 0};
     int drY [4] = {0, -1, 0, 1};
 
-    int bestdist = 10000;
+    int bestdist = 1000000;
     int alldist[4] = {};
 
     for (int d = 0; d < 4; d++){
-        int newX =  ghost->currentSqRow + drY[d];
-        int newY = ghost->currentSqCol + drX[d];
+        int newY =  ghost->currentSqRow + drY[d];
+        int newX = ghost->currentSqCol + drX[d];
 
         if(ghost->drRow != 0 || ghost->drCol != 0){
             if(drX[d] == -ghost->drRow && drY[d] == -ghost->drCol) continue;
         }
 
-        int distRow = newX - targetY;
-        int distCol = newY - targetX;
+        int distRow = newY - targetY;
+        int distCol = newX - targetX;
 
         //sqrt is unrecognized
         int dist = distRow * distRow + distCol * distCol;

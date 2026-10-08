@@ -9,7 +9,8 @@ struct entity{
     int ghosttype;
     int currentSqRow, currentSqCol;
     int wantedDrRow, wantedDrCol;
-} entity;
+    int score;
+};
 
 void labinit();
 
