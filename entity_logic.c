@@ -43,7 +43,7 @@ void collisionDetection(struct entity *entity20, int map[][32]){
     if((entity20->row)%10 == 0 && (entity20->col)%10 == 0){
             // add points to score depending on what is at the square you empty
             
-            map[entity20->currentSqRow][entity20->currentSqCol] = -1;
+            //map[pacman->currentSqRow][pacman->currentSqCol] = -1;
             entity20->currentSqRow = entity20->row/10;
             entity20->currentSqCol = entity20->col/10;
 
@@ -85,6 +85,7 @@ void move_pacman(struct entity *pacman, int map[][32]){
     pacman->col = pacman->col + pacman->drCol;
 
     collisionDetection(pacman, map);
+    map[pacman->currentSqRow][pacman->currentSqCol] = -1;
 }
 
 
