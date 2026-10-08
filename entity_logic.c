@@ -111,6 +111,7 @@ void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32
 
     int t = -1;
     int bestdist = 10000;
+    int alldist[4] = {};
 
     for (int d = 0; d < 4; d++){
         int newX =  ghost->currentSqRow + drX[d];
@@ -124,27 +125,22 @@ void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32
         //sqrt is unrecognized
         int dist = distRow * distRow + distCol * distCol;
 
-        if(dist < bestdist){
-            bestdist = dist;
-            t = d;
+        alldist[d] = dist;
+    }
+
+    for(int d = 0; d < 4; d++){
+        ghost->drRow = drY[d];
+        ghost->drCol = drX[d];
+        collisionDetection(ghost, map); 
+
+        if(ghost->drRow && ghost->drCol != 0 && alldist[d] < bestdist){
+            ghost->drRow = drY[d];
+            ghost->drCol = drX[d];
         }
     }
 
-    if(t ==-1){
-        ghost->drRow = -ghost->drRow;
-        ghost->drCol = -ghost->drCol;
-    } else {
-        ghost->drRow += drX[t];
-        ghost->drCol += drY[t];
     }
-
-    collisionDetection(ghost, map);
-}
 
     ghost->row += ghost->drRow;
     ghost->col += ghost->drCol;
 }
-
-/*To do:
-    Make a score tracker
-*/
