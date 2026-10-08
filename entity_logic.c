@@ -109,7 +109,6 @@ void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32
     int drX [4] = {-1, 0, 1, 0};
     int drY [4] = {0, -1, 0, 1};
 
-    int t = -1;
     int bestdist = 10000;
     int alldist[4] = {};
 
@@ -129,13 +128,17 @@ void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32
     }
 
     for(int d = 0; d < 4; d++){
-        ghost->drRow = drY[d];
-        ghost->drCol = drX[d];
+        ghost->wantedDrRow = drY[d];
+        ghost->wantedDrCol = drX[d];
         collisionDetection(ghost, map); 
 
-        if(ghost->drRow && ghost->drCol != 0 && alldist[d] < bestdist){
+        if(ghost->drRow && ghost->drCol == 0){
+            continue;
+        } else if(alldist[d] < bestdist){
+            bestdist = alldist[d];
             ghost->drRow = drY[d];
             ghost->drCol = drX[d];
+
         }
     }
 
