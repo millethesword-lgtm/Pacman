@@ -25,7 +25,7 @@ int main(){
 
         // For some reason makes pacman dissapear (col/row was left undefined and pac wsa sent to shadow realm)
         move_pacman(&pacman, map);
-        ghost_movement(&blinky, pacman.currentSqRow, pacman.currentSqCol, map);
+        ghost_movement(&blinky, pacman.currentSqCol, pacman.currentSqRow, map);
 
         switchBuffer(drawBuffer);
         if(drawBuffer == buffer1){
