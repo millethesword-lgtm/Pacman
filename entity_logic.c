@@ -14,6 +14,7 @@ typedef struct entity{
     int ghosttype;
     int currentSqRow, currentSqCol; // keeps track of which square in the map you an entity is in
     int wantedDrRow, wantedDrCol; // desired direction, current direction should update when perfectly in a square 
+    int score;
 } entity;
 
 void setup(struct entity *entity20, int row1, int col1, int ghostnumber){
@@ -28,6 +29,7 @@ void setup(struct entity *entity20, int row1, int col1, int ghostnumber){
     entity20->currentSqCol = col1/10;
     entity20->wantedDrRow = 0;
     entity20->wantedDrCol = 0;
+    entity20->score = 0;
 };
 
 void labinit(void){
@@ -85,6 +87,18 @@ void move_pacman(struct entity *pacman, int map[][32]){
     pacman->col = pacman->col + pacman->drCol;
 
     collisionDetection(pacman, map);
+    
+    switch(map[pacman->currentSqRow][pacman->currentSqCol]){
+        case 0:
+            pacman->score += 10;
+            break;
+        case 3:
+            pacman->score += 200;
+            break;
+        case 9:
+            pacman->score += 50;
+            break;
+    }
     map[pacman->currentSqRow][pacman->currentSqCol] = -1;
 }
 
