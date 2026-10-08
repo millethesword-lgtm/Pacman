@@ -113,13 +113,15 @@ void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32
     int alldist[4] = {};
 
     for (int d = 0; d < 4; d++){
-        int newX =  ghost->currentSqRow + drX[d];
-        int newY = ghost->currentSqCol + drY[d];
+        int newX =  ghost->currentSqRow + drY[d];
+        int newY = ghost->currentSqCol + drX[d];
 
-        if(drX[d] == -ghost->drRow && drY[d] == -ghost->drCol) continue;
+        if(ghost->drRow != 0 || ghost->drCol != 0){
+            if(drX[d] == -ghost->drRow && drY[d] == -ghost->drCol) continue;
+        }
 
-        int distRow = newX - targetX;
-        int distCol = newY - targetY;
+        int distRow = newX - targetY;
+        int distCol = newY - targetX;
 
         //sqrt is unrecognized
         int dist = distRow * distRow + distCol * distCol;
@@ -138,7 +140,6 @@ void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32
             bestdist = alldist[d];
             ghost->drRow = drY[d];
             ghost->drCol = drX[d];
-
         }
     }
 
