@@ -124,7 +124,7 @@ void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32
         ghost->wantedDrCol = drX[d];
         collisionDetection(ghost, map); 
 
-        if(ghost->drRow && ghost->drCol == 0){
+        if(ghost->drRow == 0 && ghost->drCol == 0){
             continue;
         } else if(alldist[d] < bestdist){
             bestdist = alldist[d];
