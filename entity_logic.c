@@ -32,7 +32,7 @@ int readinput(){
 }
 
 // Rework this function and incorporate collision details from move_pacman
-void collisionDetection(struct entity *entity20, int** map){
+void collisionDetection(struct entity *entity20, int map[][32]){
     if((entity20->row)%10 == 0 && (entity20->col)%10 == 0){
             // add points to score depending on what is at the square you empty
             
@@ -54,7 +54,7 @@ void collisionDetection(struct entity *entity20, int** map){
     }
 }
 
-void move_pacman(struct entity *pacman, int** map){
+void move_pacman(struct entity *pacman, int map[][32]){
     int pins = readinput();
     *led = pins;
     if(pins & 0x10000){
@@ -94,7 +94,7 @@ void move_pacman(struct entity *pacman, int** map){
 }
 
 
-void ghost_movement(struct entity *ghost, int targetX, int targetY, int** map){
+void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32]){
     if(ghost->row % 10 == 0 && ghost->col % 10 == 0){
     int drX [4] = {-1, 0, 1, 0};
     int drY [4] = {0, -1, 0, 1};
