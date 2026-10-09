@@ -20,6 +20,4 @@ void ghost_movement(struct entity *ghost, int targetX, int targetY, int map[][32
 
 void setup(struct entity *entity, int row, int col, int ghosttype);
 
-void collisionDetection(struct entity *entity20, int map[][32]);
-
 #endif

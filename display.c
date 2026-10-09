@@ -1,12 +1,9 @@
 #include "blueprints.h"
 
-#define YELLOW 0xFC // blue (8-bit 3-3-2 RGB)
+#define YELLOW 0xFC
 
 #define DefWall = 170
 #define Red = 0xFF
-//#define Purple = 230 // deeper purp - 193
-//#define DPURPLE = 193
-
 
 volatile unsigned int *bufferRegister = (volatile unsigned int*)0x4000100;
 volatile unsigned int *backBufferRegister = (volatile unsigned int*)0x4000104;
@@ -15,14 +12,7 @@ volatile unsigned int *statContRegister = (volatile unsigned int*)0x400010C;
 volatile unsigned char *buffer1 = (volatile unsigned char*)0x08000000;
 volatile unsigned char *buffer2 = (volatile unsigned char*)0x08012C00;
 
-// No blpts for walls and pellets as it is faster/less complicated to print alot of things
-// w/o the use of blpts
-
-// Empty interrupt handler
-void handle_interrupt(unsigned _irq){
-}
-
-// Best used for whole squares - copypaste and reconfigure to be used for movement
+// Milton
 void printUnit(volatile unsigned char*bufferArea, int pBlueprint[][10], int row, int col){
   for(int k = 0; k < 10; k++){
     for(int i = 0; i < 10; i++){
@@ -34,16 +24,16 @@ void printUnit(volatile unsigned char*bufferArea, int pBlueprint[][10], int row,
         bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = 170;
         break;
       case 2:
-        bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = 54;      // dont want to use for pellets!!
+        bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = 54;
         break;
       case 3:
-        bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = 192;    // Should be red - Apple
+        bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = 192;
         break;
       case 4:
         bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = YELLOW;
         break;
       case 8:
-        bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = 0x14; // Is lime-green
+        bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = 0x14;
         break;
       case 9:
         bufferArea[(row * 10 + k) * 320 + (col * 10 + i)] = 255;
@@ -53,8 +43,7 @@ void printUnit(volatile unsigned char*bufferArea, int pBlueprint[][10], int row,
   }
 }
 
-// Make it so you input the "ghosttype", aka if it is pacman or which ghost the entity is, then the function decides
-// based on current direction which blueprint to print. So the entities arent static
+// Milton
 void printMoving(volatile unsigned char*bufferArea, int pBlueprint[][10], int currentRow, int currentCol){
   for(int k = 0; k < 10; k++){
     for(int i = 0; i < 10; i++){
@@ -85,7 +74,7 @@ void printMoving(volatile unsigned char*bufferArea, int pBlueprint[][10], int cu
   }
 }
 
-// draws all the pellets w/o the use blpts
+// Milton
 void drawPellet(volatile unsigned char*bufferArea, int row, int col){
   int x = col * 10 + 4;
   int y = row * 10 + 4;
@@ -95,7 +84,8 @@ void drawPellet(volatile unsigned char*bufferArea, int row, int col){
     }
   }
 }
-      // draws all the walls w/o the use of blpts
+
+// Milton
 void drawMap(volatile unsigned char*bufferArea, int rowStart, int rowEnd, int colStart, int colEnd){
   for(int row = rowStart; row < rowEnd; row++){
     for(int col = colStart; col < colEnd; col++){
@@ -104,7 +94,7 @@ void drawMap(volatile unsigned char*bufferArea, int rowStart, int rowEnd, int co
   }
 }
 
-// pellet square is currently set to 0, a completely empty square is set to -1
+// Milton
 void printMap(volatile unsigned char *bufferArea, int map[][32]){
   for(int row = 0; row < 24; row++){
     for(int col = 0; col < 32; col++){
@@ -129,7 +119,7 @@ void printMap(volatile unsigned char *bufferArea, int map[][32]){
   }
 }
 
-// Switches which framebuffer pixel area to render on screen
+// Milton
 void switchBuffer(volatile unsigned char *bufferArea){
   *backBufferRegister = (unsigned int)bufferArea;
   *bufferRegister = 1;
@@ -138,13 +128,14 @@ void switchBuffer(volatile unsigned char *bufferArea){
   }
 }
 
+// Milton
 void clearBuffer(volatile unsigned char *bufferArea){
   for(int i=0; i<320*240; i++){
     bufferArea[i] = 0;
   }
 }
 
-
+// Unused - Milton
 void displayPrint(volatile unsigned char*bufferArea){ 
   // Clear the entire VGA buffer area by writing the value 0 (=black)
   for (int i = 0; i < 320*480; i++){
