@@ -105,7 +105,7 @@ void drawMap(volatile unsigned char*bufferArea, int rowStart, int rowEnd, int co
 }
 
 // pellet square is currently set to 0, a completely empty square is set to -1
-void printMap(volatile unsigned char *bufferArea, int map[][32]){
+void printMap(volatile unsigned char *bufferArea, int** map){
   for(int row = 0; row < 24; row++){
     for(int col = 0; col < 32; col++){
       switch(map[row][col]){
